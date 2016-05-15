@@ -1,8 +1,8 @@
 import falcon
 import json
-from collections import NamedTuple
+from collections import namedtuple
 
-Unit = NamedTuple('Unit', ['x', 'y'])
+Unit = namedtuple('Unit', ['x', 'y'])
 self.unit = Unit(0,0)
 
 class MoveUnitResource:
