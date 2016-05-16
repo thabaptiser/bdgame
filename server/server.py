@@ -82,13 +82,13 @@ class MoveUnitResource:
         req_json = json.loads(req.stream.read().decode('utf-8'))
         direction = req_json['direction']
         if direction == 0:
-            unit.x += 1
-        elif direction == 1:
             unit.y += 1
+        elif direction == 1:
+            unit.x += 1
         elif direction == 2:
-            unit.x -= 1
-        elif direction == 3:
             unit.y -= 1
+        elif direction == 3:
+            unit.x -= 1
         #unit_id = req_json['unit_id']
         resp.status = falcon.HTTP_200
 
