@@ -2,8 +2,7 @@ import falcon
 import json
 from collections import namedtuple
 import random
-import redis
-r = redis.StrictRedis(host='localhost', port=6379, db=0)
+
 Unit = namedtuple('Unit', ['x', 'y'])
 unit = Unit(0,0)
 
