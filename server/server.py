@@ -37,7 +37,7 @@ class ServerClass():
 
     class CreateUnitResource:
         def on_get(self, req, resp):
-            max_id = add_unit(self.max_id)
+            max_id = add_unit(max_id)
 
     class GetGridResource:
         def on_get(self, req, resp):
