@@ -101,7 +101,7 @@ class MoveUnitResource:
 
 class GetGridResource:
     def on_get(self, req, resp):
-        resp.body = json.dumps({'units': {id: unit.x, unit.y for unit in units.values()}})
+        resp.body = json.dumps({'units': {id: (unit.x, unit.y) for unit in units.values()}})
 
 api = falcon.API()
 api.add_route('/unit/move', MoveUnitResource())
