@@ -28,11 +28,13 @@ def main(stdscr):
             createSoldier()
             soldier = receiveSoldier()
         elif key in directions:
-            move(stdscr,key)
+            moveCursor(stdscr,key)
         elif key == ord('s'):
             key = stdscr.getch()
             if key in directions:
                 moveSoldier(stdscr,key)
+        stdscr.refresh()
+
 def extra():
     move = {"direction":keyDir(key)}
     sendData(move)
@@ -45,6 +47,17 @@ def extra():
     req = urllib.request.Request(url, data=data)
     response = urllib.request.urlopen(req)
 
+def moveCursor(stdscr,key):
+    cursorPos = stdscr.getyx()
+    if key == KEY_DOWN:
+        stdscr.move(cursorPos[0]+1,cursorPos[1])
+    elif key == KEY_UP:
+        stdscr.move(cursorPos[0]-1,cursorPos[1])
+    elif key == KEY_LEFT:
+        stdscr.move(cursorPos[0],cursorPos[1]-1)
+    elif key == KEY_RIGHT:
+        stdscr.move(cursorPos[0],cursorPos[1]+1)
+    stdscr.refresh()
 
 def receiveSoldier():
     url = "http://52.34.125.56:8080/grid"
@@ -58,7 +71,7 @@ def createSoldier():
     req = urllib.request.Request(url)
     response = urllib.request.urlopen(req)
 
-def moveSoldier(stdscr,x,y):
+def moveSoldier(stdscr,key):
     stdscr.addch(self.y+(yLimit//2), self.x+(xLimit//2), " ")
     self.x = x - offset[0]
     self.y = offset[1] - y
@@ -80,6 +93,6 @@ def exit(stdscr):
     curses.echo()
     curses.endwin()
 
-wrapper(main)
+wrapper(main(stdscr))
 
 
