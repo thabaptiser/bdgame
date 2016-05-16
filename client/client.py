@@ -14,36 +14,56 @@ stdscr.clear()
 curses.curs_set(2)
 
 yLimit = curses.LINES - 1
-xLimit = curses.COLS - 1 
+xLimit = curses.COLS - 1
+directions = [KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT]
 
 def main(stdscr):
-   while True:
+    stdscr.move(yLimit//2,xLimit//2)       
+    while True:
         # get direction to move soldier
-        key = stdscr.getch()
-        move = {"direction":keyDir(key)}
-        sendData(move)
-        # receive information to update display
-        response = receiveData()
-        displaySoldier(stdscr,response["units"][0][0], response["units"][0][1])
-        stdscr.refresh()
-
-def receiveData():
-    url = "http://52.34.125.56:8080/grid"
-    req = urllib.request.Request(url)
-    response = urllib.request.urlopen(req)
-    return json.loads(response.read().decode("utf-8"))
-    
-def sendData(data):
+        key = stdscr.getch() 
+        if key == ord('q'):
+            exit(stdscr)
+        elif key == ord('c'):
+            createSoldier()
+            soldier = receiveSoldier()
+        elif key in directions:
+            move(stdscr,key)
+        elif key == ord('s'):
+            key = stdscr.getch()
+            if key in directions:
+                moveSoldier(stdscr,key)
+def extra():
+    move = {"direction":keyDir(key)}
+    sendData(move)
+    # receive information to update display
+    response = receiveData()
+    soldier.moveSoldier(stdscr, response["units"][0][0], response["units"][0][1])
+    stdscr.refresh()
     url = "http://52.34.125.56:8080/unit/move"
     data = json.dumps(data).encode('utf-8')
     req = urllib.request.Request(url, data=data)
     response = urllib.request.urlopen(req)
 
-def displaySoldier(stdscr,x,y):
-    x = x - offset[0]
-    y = offset[1] - y
-    stdscr.addch(y + (yLimit//2),x + (xLimit//2),'#')
 
+def receiveSoldier():
+    url = "http://52.34.125.56:8080/grid"
+    req = urllib.request.Request(url)
+    response = urllib.request.urlopen(req)
+    return json.loads(response.read().decode("utf-8"))
+    
+def createSoldier():
+    url = "http://52.34.125.56:8080/unit/create"
+   # data = json.dumps().encode('utf-8')
+    req = urllib.request.Request(url)
+    response = urllib.request.urlopen(req)
+
+def moveSoldier(stdscr,x,y):
+    stdscr.addch(self.y+(yLimit//2), self.x+(xLimit//2), " ")
+    self.x = x - offset[0]
+    self.y = offset[1] - y
+    stdscr.addch(self.y + (yLimit//2),self.x + (xLimit//2),'#')
+  
 def keyDir(key):
     if key == KEY_UP:
         return 0
