@@ -81,6 +81,7 @@ class MoveUnitResource:
         """Handles post requests"""
         req_json = json.loads(req.stream.read().decode('utf-8'))
         direction = req_json['direction']
+        raise Exception(str(direction))
         if direction == 0:
             unit.x += 1
         elif direction == 1:
@@ -91,6 +92,8 @@ class MoveUnitResource:
             unit.y -= 1
         #unit_id = req_json['unit_id']
         resp.status = falcon.HTTP_200
+
+
 class GetGridResource:
     def on_get(self, req, resp):
         resp.body = json.dumps({'units': [(unit.x, unit.y)]})
