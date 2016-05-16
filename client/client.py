@@ -4,36 +4,45 @@ import json
 from curses import KEY_RIGHT, KEY_LEFT, KEY_UP, KEY_DOWN
 import urllib.request
 
+offset = [0,0]   
+stdscr = curses.initscr()
+curses.noecho()
+curses.cbreak()
+stdscr.keypad(True)
+# Clear screen
+stdscr.clear()
+curses.curs_set(2)
+
+yLimit = curses.LINES - 1
+xLimit = curses.COLS - 1 
+
 def main(stdscr):
-    stdscr = curses.initscr()
-    curses.noecho()
-    curses.cbreak()
-    stdscr.keypad(True)
-    # Clear screen
-    stdscr.clear()
-    curses.curs_set(2)
-    while True:
-        cursorPos = stdscr.getyx()
-#        key = stdscr.getch()
- #       if key == ord('q'):
-  #          exit(stdscr)
-        url = "http://52.34.125.56/grid"
-        newDirection = {"direction":0}
-        params = json.dumps(newDirection).encode('utf8')
-        req = urllib.request.Request(url, data=params)
-        response = urllib.request.urlopen(req)
-#        print(response.read().decode('utf8'))
-#        if key in [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN, 'q']:
-#           if key == q:
-#                exit(stdscr)
-#            elif key == KEY_LEFT:
-#                stdscr.move(
+   while True:
+        # get direction to move soldier
+        key = stdscr.getch()
+        move = {"direction":keyDir(key)}
+        sendData(move)
+        # receive information to update display
+        response = receiveData()
+        displaySoldier(stdscr,response["units"][0][0], response["units"][0][1])
         stdscr.refresh()
 
-def request(url, dic):
+def receiveData():
+    url = "http://52.34.125.56:8080/grid"
+    req = urllib.request.Request(url)
+    response = urllib.request.urlopen(req)
+    return json.loads(response.read().decode("utf-8"))
+    
+def sendData(data):
+    url = "http://52.34.125.56:8080/unit/move"
+    data = json.dumps(data).encode('utf-8')
+    req = urllib.request.Request(url, data=data)
+    response = urllib.request.urlopen(req)
 
-def displaySoldier(stdscr,y,x):
-    stdscr.addch(y,x,'#')
+def displaySoldier(stdscr,x,y):
+    x = x - offset[0]
+    y = offset[1] - y
+    stdscr.addch(y + (yLimit//2),x + (xLimit//2),'#')
 
 def keyDir(key):
     if key == KEY_UP:
