@@ -12,7 +12,7 @@ class Unit():
         self.id = id
 
 def add_unit(max_id):
-    s.units[max_id] = Unit(0, 0, max_id)
+    s.units[str(max_id)] = Unit(0, 0, max_id)
     return max_id + 1
 
 class ServerClass():
@@ -41,7 +41,7 @@ class CreateUnitResource:
 
 class GetGridResource:
     def on_get(self, req, resp):
-        resp.body = json.dumps({'units': {str(id): (units[id].x, units[id].y) for id in s.units}})
+        resp.body = json.dumps({'units': {id: (units[id].x, units[id].y) for id in s.units}})
 
 api = falcon.API()
 s = ServerClass()
