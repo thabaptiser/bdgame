@@ -98,6 +98,9 @@ class MoveUnitResource:
             units[id].x -= 1
         resp.status = falcon.HTTP_200
 
+class CreateUnitResource:
+    def on_get(self, req, resp):
+        add_unit()
 
 class GetGridResource:
     def on_get(self, req, resp):
@@ -105,4 +108,5 @@ class GetGridResource:
 
 api = falcon.API()
 api.add_route('/unit/move', MoveUnitResource())
+api.add_route('/unit/create', CreateUnitResource())
 api.add_route('/grid', GetGridResource())
