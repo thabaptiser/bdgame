@@ -12,9 +12,9 @@ class Unit():
         self.y = y
         self.id = id
 
-def add_unit():
-    units[max_id] = Unit(0,0, max_id)
-    max_id += 1
+def add_unit(max_id):
+    units[max_id] = Unit(0, 0, max_id)
+    return max_id + 1
 
 #def get_num_at_end_of_branch(branch):
 #    if branch % 2 == 0:
@@ -100,7 +100,7 @@ class MoveUnitResource:
 
 class CreateUnitResource:
     def on_get(self, req, resp):
-        add_unit()
+        max_id = add_unit(max_id)
 
 class GetGridResource:
     def on_get(self, req, resp):
