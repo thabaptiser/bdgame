@@ -4,6 +4,7 @@ import json
 from curses import KEY_RIGHT, KEY_LEFT, KEY_UP, KEY_DOWN
 import urllib.request
 
+offset = [0,0]
 def main(stdscr):
     stdscr = curses.initscr()
     curses.noecho()
@@ -37,7 +38,9 @@ def sendData(data):
     response = urllib.request.urlopen(req)
 
 def displaySoldier(stdscr,x,y):
-    stdscr.addch(y,x,'#')
+    x = x - offset[0]
+    y = offset[1] - y
+    stdscr.addch(y + (yLimit//2),x + (xLimit//2),'#')
 
 def keyDir(key):
     if key == KEY_UP:
