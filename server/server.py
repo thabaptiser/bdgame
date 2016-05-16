@@ -7,7 +7,6 @@ class Unit():
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        unit = Unit(0,0)
 
 unit = Unit(0,0)
 
