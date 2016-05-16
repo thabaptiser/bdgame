@@ -90,8 +90,7 @@ class MoveUnitResource:
         elif direction == 3:
             unit.y -= 1
         #unit_id = req_json['unit_id']
-        resp.status = HTTP_200
-
+        resp.status = falcon.HTTP_200
 class GetGridResource:
     def on_get(self, req, resp):
         resp.body = json.dumps({'units': [(unit.x, unit.y)]})
