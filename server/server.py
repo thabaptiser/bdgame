@@ -3,7 +3,12 @@ import json
 from collections import namedtuple
 import random
 
-Unit = namedtuple('Unit', ['x', 'y'])
+class Unit():
+    def __init__(x, y):
+        self.x = x
+        self.y = y
+        unit = Unit(0,0)
+
 unit = Unit(0,0)
 
 def get_num_at_end_of_branch(branch):
@@ -75,7 +80,7 @@ def generate_map(x, y):
 class MoveUnitResource:
     def on_post(self, req, resp):
         """Handles post requests"""
-        req_json = json.loads(str(req.stream.read()))
+        req_json = json.loads(str(req.stream.read()).decode('utf-8'))
         direction = req_json['direction']
         if direction == 0:
             unit.x += 1
