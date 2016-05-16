@@ -79,7 +79,7 @@ def generate_map(x, y):
 class MoveUnitResource:
     def on_post(self, req, resp):
         """Handles post requests"""
-        req_json = json.loads(str(req.stream.read()).decode('utf-8'))
+        req_json = json.loads(req.stream.read().decode('utf-8'))
         direction = req_json['direction']
         if direction == 0:
             unit.x += 1
