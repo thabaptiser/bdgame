@@ -4,18 +4,20 @@ import json
 from curses import KEY_RIGHT, KEY_LEFT, KEY_UP, KEY_DOWN
 import urllib.request
 
-offset = [0,0]
+offset = [0,0]   
+stdscr = curses.initscr()
+curses.noecho()
+curses.cbreak()
+stdscr.keypad(True)
+# Clear screen
+stdscr.clear()
+curses.curs_set(2)
+
+yLimit = curses.LINES - 1
+xLimit = curses.COLS - 1 
+
 def main(stdscr):
-    stdscr = curses.initscr()
-    curses.noecho()
-    curses.cbreak()
-    stdscr.keypad(True)
-    # Clear screen
-    stdscr.clear()
-    curses.curs_set(2)
-    yLimit = curses.LINES - 1
-    xLimit = curses.COLS - 1
-    while True:
+   while True:
         # get direction to move soldier
         key = stdscr.getch()
         move = {"direction":keyDir(key)}
