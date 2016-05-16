@@ -81,7 +81,6 @@ class MoveUnitResource:
         """Handles post requests"""
         req_json = json.loads(req.stream.read().decode('utf-8'))
         direction = req_json['direction']
-        raise Exception(str(direction))
         if direction == 0:
             unit.x += 1
         elif direction == 1:
