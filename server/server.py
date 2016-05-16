@@ -3,7 +3,6 @@ import json
 from collections import namedtuple
 import random
 
-max_id = 0
 units = {}
 
 class Unit():
@@ -99,12 +98,13 @@ class MoveUnitResource:
         resp.status = falcon.HTTP_200
 
 class CreateUnitResource:
+    max_id = 0
     def on_get(self, req, resp):
-        max_id = add_unit(max_id)
+        self.max_id = add_unit(self.max_id)
 
 class GetGridResource:
     def on_get(self, req, resp):
-        resp.body = json.dumps({'units': {id: (unit.x, unit.y) for unit in units.values()}})
+        resp.body = json.dumps({'units': {str(id): (unit.x, unit.y) for unit in units.values()}})
 
 api = falcon.API()
 api.add_route('/unit/move', MoveUnitResource())
