@@ -3,6 +3,7 @@ from curses import wrapper
 import json
 from curses import KEY_RIGHT, KEY_LEFT, KEY_UP, KEY_DOWN
 import urllib.request
+import sys
 
 offset = [0,0]   
 stdscr = curses.initscr()
@@ -18,7 +19,7 @@ xLimit = curses.COLS - 1
 directions = [KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT]
 
 def main(stdscr):
-    stdscr.move(yLimit//2,xLimit//2)       
+    cursor = Cursor(stdscr)
     while True:
         # get direction to move soldier
         key = stdscr.getch() 
@@ -28,7 +29,9 @@ def main(stdscr):
             createSoldier()
             soldier = receiveSoldier()
         elif key in directions:
-            moveCursor(stdscr,key)
+            cursor.remove(stdscr)
+            cursor.moveCursor(stdscr,key)
+            cursor.display(stdscr)
         elif key == ord('s'):
             key = stdscr.getch()
             if key in directions:
@@ -47,17 +50,31 @@ def extra():
     req = urllib.request.Request(url, data=data)
     response = urllib.request.urlopen(req)
 
-def moveCursor(stdscr,key):
-    cursorPos = stdscr.getyx()
-    if key == KEY_DOWN:
-        stdscr.move(cursorPos[0]+1,cursorPos[1])
-    elif key == KEY_UP:
-        stdscr.move(cursorPos[0]-1,cursorPos[1])
-    elif key == KEY_LEFT:
-        stdscr.move(cursorPos[0],cursorPos[1]-1)
-    elif key == KEY_RIGHT:
-        stdscr.move(cursorPos[0],cursorPos[1]+1)
-    stdscr.refresh()
+
+class Cursor:
+    def __init__(self, stdscr):
+        self.x = xLimit//2
+        self.y = yLimit//2
+        self.display(stdscr)
+
+    def remove(self, stdscr):
+        stdscr.addch(self.y,self.x," ")
+        stdscr.refresh()
+
+    def display(self, stdscr):
+        stdscr.addch(self.y,self.x,210)
+        stdscr.refresh()
+
+    def moveCursor(self, stdscr,key):
+        if key == KEY_DOWN:
+            self.y += 1
+        elif key == KEY_UP:
+            self.y -= 1
+        elif key == KEY_LEFT:
+            self.x -= 1
+        elif key == KEY_RIGHT:
+            self.x += 1
+
 
 def receiveSoldier():
     url = "http://52.34.125.56:8080/grid"
@@ -92,7 +109,8 @@ def exit(stdscr):
     stdscr.keypad(False)
     curses.echo()
     curses.endwin()
+    sys.exit(0)
 
-wrapper(main(stdscr))
+curses.wrapper(main)
 
 
