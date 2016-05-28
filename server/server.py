@@ -3,10 +3,9 @@ import json
 import uuid
 
 class Unit():
-    def __init__(self, x, y, id, token):
+    def __init__(self, x, y, token):
         self.x = x
         self.y = y
-        self.id = id
         self.token = token
 
     def check_auth(self, token):
@@ -15,17 +14,29 @@ class Unit():
     def move(self, direction, token):
         if not self.check_auth(token):
             return
+        
         if direction == 0:
-            s.units[i].y += 1
+            self.y += 1
+            del s.units[(self.x, self.y)]
+            s.units[(self.x, self.y+1)] = self
+        
         elif direction == 1:
-            s.units[i].x += 1
-        elif direction == 2:
-            s.units[i].y -= 1
-        elif direction == 3:
-            s.units[i].x -= 1
+            self.x += 1
+            del s.units[(self.x, self.y)]
+            s.units[(self.x+1, self.y)] = self
 
+        elif direction == 2:
+            self.y -= 1
+            del s.units[(self.x, self.y)]
+            s.units[(self.x, self.y-1)] = self
+
+        elif direction == 3:
+            self.x -= 1
+            del s.units[(self.x, self.y)]
+            s.units[(self.x-1, self.y)] = self
+ 
 def add_unit(max_id, token):
-    s.units[str(max_id)] = Unit(0, 0, max_id, token)
+    s.units[(0, max_id)] = Unit(0, 0, token)
     return max_id + 1
 
 class ServerClass:
@@ -34,8 +45,9 @@ class ServerClass:
 
 class CreateAuthTokenResource:
     def on_get(self, req, resp):
-        """gets a new auth token"""
-        resp.body = json.dumps({'token':uuid.uuid4()})
+        """Gets a new auth token"""
+        resp.body = json.dumps({'token': uuid.uuid4()})
+
 
 class MoveUnitResource:
     def on_post(self, req, resp):
@@ -43,18 +55,20 @@ class MoveUnitResource:
         req_json = json.loads(req.stream.read().decode('utf-8'))
         direction = req_json['direction']
         token = req_json['token']
-        for i in req_json['ids']:
+        for i in req_json['positions']:
             s.units[i].move(direction, token)
         resp.status = falcon.HTTP_200
+
 
 class CreateUnitResource:
     def on_post(self, req, resp):
         req_json = json.loads(req.stream.read().decode('utf-8'))
         s.max_id = add_unit(s.max_id, req_json['token'])
 
+
 class GetGridResource:
     def on_get(self, req, resp):
-        resp.body = json.dumps({'units': {id: (s.units[id].x, s.units[id].y) for id in s.units}})
+        resp.body = json.dumps({'soldiers': s.units.keys()})
 
 api = falcon.API()
 s = ServerClass()
