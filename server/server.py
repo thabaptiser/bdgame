@@ -67,8 +67,13 @@ class CreateUnitResource:
 
 
 class GetGridResource:
-    def on_get(self, req, resp):
-        resp.body = json.dumps({'soldiers': s.units.keys()})
+    def on_post(self, req, resp):
+        req_json = json.loads(req.stream.read().decode('utf-8'))
+        ret = []
+        for x in range(req_json['screen'][0][0], req_json['screen'][0][1]):
+            for y in range(req_json['screen'][0][1], req_json['screen'][1][1]):
+                ret.append(s.units[(x, y)])
+        resp.body = json.dumps({'soldiers': ret})
 
 api = falcon.API()
 s = ServerClass()
