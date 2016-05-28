@@ -49,6 +49,7 @@ class MoveUnitResource:
 
 class CreateUnitResource:
     def on_post(self, req, resp):
+        req_json = json.loads(req.stream.read().decode('utf-8'))
         s.max_id = add_unit(s.max_id, req_json['token'])
 
 class GetGridResource:
