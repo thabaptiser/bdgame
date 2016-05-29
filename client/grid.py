@@ -8,7 +8,7 @@ class Grid:
         self.y_limit = y_limit
         self.top_left = (-20, 20)
         threading.Thread(target=self.refresh, daemon=True).start()
-        self.grid = []
+        self.grid = {}
 
     def refresh(self):
         self.grid = self.request()
