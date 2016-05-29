@@ -1,7 +1,13 @@
+import json
+import urllib.request
+
 class Grid:
-    def __init__(self, stdscr):
+    def __init__(self, stdscr, x_limit, y_limit, directions):
         self.stdscr = stdscr
-        
+        self.x_Limit = x_limit
+        self.y_Limit = y_limit
+        self.directions = directions
+
     def request(self):
         url = "http://52.34.125.56:8080/grid"
         req = urllib.request.Request(url)

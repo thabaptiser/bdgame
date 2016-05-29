@@ -1,7 +1,9 @@
+from grid import Grid
+
 class Cursor:
     def __init__(self, stdscr):
-        self.x = xLimit//2
-        self.y = yLimit//2
+        self.x = Grid.x_limit//2
+        self.y = Grid.y_limit//2
         self.display(stdscr)
 
     def remove(self, stdscr):

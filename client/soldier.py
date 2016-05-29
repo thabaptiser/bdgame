@@ -1,3 +1,5 @@
+import json
+import urllib.request
 import utils
 
 def create_soldier(token):
@@ -11,7 +13,7 @@ def move_soldier(token, stdscr, key):
     self.x = x - offset[0]
     self.y = offset[1] - y
     stdscr.addch(self.y + (yLimit//2),self.x + (xLimit//2),'#')
-    move = {"direction":key_dir(key)}
+    move = {"direction": utils.key_dir(key)}
     send_data(move)
     # receive information to update display
     response = receiveData()

@@ -1,7 +1,5 @@
 import curses
-import json
 import sys
-import urllib.request
 
 from curses import KEY_RIGHT, KEY_LEFT, KEY_UP, KEY_DOWN
 from curses import wrapper
@@ -16,8 +14,8 @@ curses.cbreak()
 stdscr.keypad(True)
 stdscr.clear()
 curses.curs_set(0)
-yLimit = curses.LINES - 1
-xLimit = curses.COLS - 1
+y_limit = curses.LINES - 1
+x_limit = curses.COLS - 1
 directions = [KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT]
 
 def main(stdscr):
@@ -27,7 +25,7 @@ def main(stdscr):
     req = urllib.request.Request(url, data=data)
     response = urllib.request.urlopen(req)
     token = json.loads(response.read().decode("utf-8"))['token'] 
-    grid = Grid(stdscr)
+    grid = Grid(stdscr, x_limit, y_limit, directions)
     while True:
         key = stdscr.getch() 
         if key == ord('q'):
