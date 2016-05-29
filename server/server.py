@@ -11,7 +11,7 @@ class ServerClass:
 class CreateAuthTokenResource:
     def on_get(self, req, resp):
         """Gets a new auth token"""
-        resp.body = json.dumps({'token': uuid.uuid4()})
+        resp.body = json.dumps({'token': repr(uuid.uuid4())})
 
 
 class MoveUnitResource:
@@ -30,7 +30,7 @@ class CreateUnitResource:
         req_json = json.loads(req.stream.read().decode('utf-8'))
         y = 0
         while s.units.get[(0, y)]:
-            y+=1
+            y += 1
         s.units[(0, y)] = Unit(0, y, req_json['token'])
 
 
