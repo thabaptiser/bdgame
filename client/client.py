@@ -39,7 +39,6 @@ def main(stdscr):
         stdscr.clear()
         grid.display()
         cursor.display()
-        stdscr.refresh()
 
 def exit(stdscr):
     curses.nocbreak()

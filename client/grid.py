@@ -1,11 +1,17 @@
+import threading
 import utils
 
 class Grid:
     def __init__(self, stdscr, x_limit, y_limit):
         self.stdscr = stdscr
-        self.x_Limit = x_limit
-        self.y_Limit = y_limit
+        self.x_limit = x_limit
+        self.y_limit = y_limit
         self.top_left = (-20, 20)
+        threading.Thread(target=self.refresh, daemon=True).start()
+        self.grid = []
+
+    def refresh(self):
+        self.grid = self.request()
 
     @property
     def bottom_right(self):
@@ -17,8 +23,7 @@ class Grid:
         return utils.request(url, data)
 
     def display(self):
-        grid = self.request()
-        for soldier in grid['soldiers']:
+        for soldier in self.grid['soldiers']:
             new_coords = utils.normalize_coords(self.top_left, (soldier[0], soldier[1]))
             stdscr.addch(new_coords[1], new_coords[0], '#')
 
