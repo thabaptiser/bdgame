@@ -11,7 +11,7 @@ class ServerClass:
 class CreateAuthTokenResource:
     def on_get(self, req, resp):
         """Gets a new auth token"""
-        resp.body = json.dumps({'token': repr(uuid.uuid4())})
+        resp.body = json.dumps({'token': str(uuid.uuid4())})
 
 
 class MoveUnitResource:
