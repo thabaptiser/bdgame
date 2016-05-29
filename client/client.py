@@ -1,6 +1,7 @@
 import curses
 import sys
 
+import utils
 from curses import KEY_RIGHT, KEY_LEFT, KEY_UP, KEY_DOWN
 from curses import wrapper
 
@@ -22,7 +23,7 @@ def main(stdscr):
     cursor = Cursor(stdscr)
     url = "http://52.34.125.56:8080/token/get"
     token = utils.request(url)['token']
-    grid = Grid(stdscr, x_limit, y_limit, directions)
+    grid = Grid(stdscr, x_limit, y_limit)
     while True:
         key = stdscr.getch() 
         if key == ord('q'):

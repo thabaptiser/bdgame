@@ -1,13 +1,10 @@
-import json
-import urllib.request
 import utils
 
 class Grid:
-    def __init__(self, stdscr, x_limit, y_limit, directions):
+    def __init__(self, stdscr, x_limit, y_limit):
         self.stdscr = stdscr
         self.x_Limit = x_limit
         self.y_Limit = y_limit
-        self.directions = directions
         self.top_left = (-20, 20)
 
     @property

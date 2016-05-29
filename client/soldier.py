@@ -1,5 +1,3 @@
-import json
-import urllib.request
 import utils
 
 def create_soldier(token):

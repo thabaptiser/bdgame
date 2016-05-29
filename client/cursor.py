@@ -1,9 +1,11 @@
+from curses import KEY_RIGHT, KEY_LEFT, KEY_UP, KEY_DOWN
+
 from grid import Grid
 
 class Cursor:
     def __init__(self, stdscr):
-        self.x = Grid.x_limit//2
-        self.y = Grid.y_limit//2
+        self.x = 0
+        self.y = 0
         self.stdscr = stdscr
 
     def display(self):
