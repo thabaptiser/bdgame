@@ -45,7 +45,7 @@ class GetGridResource:
         resp.body = json.dumps({'soldiers': ret})
     
     def on_get(self, req, resp):
-        resp.body = json.dumps({'soldiers': list(s.units.values())})
+        resp.body = json.dumps({'soldiers': list(s.units.keys())})
 
 s = ServerClass()
 api = falcon.API()
