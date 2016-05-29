@@ -21,10 +21,7 @@ directions = [KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT]
 def main(stdscr):
     cursor = Cursor(stdscr)
     url = "http://52.34.125.56:8080/token/get"
-    data = json.dumps(data).encode('utf-8')
-    req = urllib.request.Request(url, data=data)
-    response = urllib.request.urlopen(req)
-    token = json.loads(response.read().decode("utf-8"))['token'] 
+    token = utils.request(url)['token']
     grid = Grid(stdscr, x_limit, y_limit, directions)
     while True:
         key = stdscr.getch() 
@@ -32,16 +29,16 @@ def main(stdscr):
             exit(stdscr)
         elif key == ord('c'):
             create_soldier(token)
-            grid.display()
         elif key in directions:
-            cursor.remove(stdscr)
-            cursor.move_cursor(stdscr, key)
-            cursor.display(stdscr)
+            cursor.move_cursor(key)
         elif key == ord('s'):
             key = stdscr.getch()
             if key in directions:
                 move_soldier(stdscr, key)
-                grid.display()
+        stdscr.clear()
+        grid.display()
+        cursor.display()
+        stdscr.refresh()
 
 def exit(stdscr):
     curses.nocbreak()
@@ -49,10 +46,6 @@ def exit(stdscr):
     curses.echo()
     curses.endwin()
     sys.exit(0)
-
-
-def normalize_coords(x, y, offset_x, offset_y):
-
 
 curses.wrapper(main)
 

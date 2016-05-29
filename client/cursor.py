@@ -4,17 +4,12 @@ class Cursor:
     def __init__(self, stdscr):
         self.x = Grid.x_limit//2
         self.y = Grid.y_limit//2
-        self.display(stdscr)
+        self.stdscr = stdscr
 
-    def remove(self, stdscr):
-        stdscr.addch(self.y, self.x, " ")
-        stdscr.refresh()
+    def display(self):
+        self.stdscr.addch(self.y, self.x, "+")
 
-    def display(self, stdscr):
-        stdscr.addch(self.y, self.x, "+")
-        stdscr.refresh()
-
-    def move_cursor(self, stdscr, key):
+    def move_cursor(self, key):
         if key == KEY_DOWN:
             self.y += 1
         elif key == KEY_UP:
@@ -23,4 +18,4 @@ class Cursor:
             self.x -= 1
         elif key == KEY_RIGHT:
             self.x += 1
-d
+

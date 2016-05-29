@@ -4,9 +4,7 @@ import utils
 
 def create_soldier(token):
     url = "http://52.34.125.56:8080/unit/create"
-    data = json.dumps({'token': token}).encode('utf-8')
-    req = urllib.request.Request(url, data=data)
-    response = urllib.request.urlopen(req)
+    utils.request(url, data={'token': token})
 
 def move_soldier(token, stdscr, key):
     stdscr.addch(self.y+(yLimit//2), self.x+(xLimit//2), " ")
