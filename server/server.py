@@ -2,42 +2,7 @@ import falcon
 import json
 import uuid
 
-class Unit():
-    def __init__(self, x, y, token):
-        self.x = x
-        self.y = y
-        self.token = token
-
-    def check_auth(self, token):
-        return self.token == token
-
-    def move(self, direction, token):
-        if not self.check_auth(token):
-            return
-        
-        if direction == 0:
-            self.y += 1
-            del s.units[(self.x, self.y)]
-            s.units[(self.x, self.y+1)] = self
-        
-        elif direction == 1:
-            self.x += 1
-            del s.units[(self.x, self.y)]
-            s.units[(self.x+1, self.y)] = self
-
-        elif direction == 2:
-            self.y -= 1
-            del s.units[(self.x, self.y)]
-            s.units[(self.x, self.y-1)] = self
-
-        elif direction == 3:
-            self.x -= 1
-            del s.units[(self.x, self.y)]
-            s.units[(self.x-1, self.y)] = self
- 
-def add_unit(max_id, token):
-    s.units[(0, max_id)] = Unit(0, 0, token)
-    return max_id + 1
+from unit import Unit
 
 class ServerClass:
     max_id = 0
@@ -63,7 +28,10 @@ class MoveUnitResource:
 class CreateUnitResource:
     def on_post(self, req, resp):
         req_json = json.loads(req.stream.read().decode('utf-8'))
-        s.max_id = add_unit(s.max_id, req_json['token'])
+        y = 0
+        while s.units.get[(0, y)]:
+            y+=1
+        s.units[(0, y)] = Unit(0, y, req_json['token'])
 
 
 class GetGridResource:
@@ -75,8 +43,8 @@ class GetGridResource:
                 ret.append(s.units[(x, y)])
         resp.body = json.dumps({'soldiers': ret})
 
-api = falcon.API()
 s = ServerClass()
+api = falcon.API()
 api.add_route('/unit/move', MoveUnitResource())
 api.add_route('/unit/create', CreateUnitResource())
 api.add_route('/grid', GetGridResource())
