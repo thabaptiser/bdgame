@@ -5,14 +5,7 @@ def create_soldier(token):
     utils.request(url, data={'token': token})
 
 def move_soldier(token, stdscr, key):
-    stdscr.addch(self.y+(yLimit//2), self.x+(xLimit//2), " ")
-    self.x = x - offset[0]
-    self.y = offset[1] - y
-    stdscr.addch(self.y + (yLimit//2),self.x + (xLimit//2),'#')
     move = {"direction": utils.key_dir(key)}
-    send_data(move)
-    # receive information to update display
-    response = receiveData()
     url = "http://52.34.125.56:8080/unit/move"
     data = json.dumps(data).encode('utf-8')
     req = urllib.request.Request(url, data=data)

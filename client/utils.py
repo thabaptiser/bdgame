@@ -1,6 +1,8 @@
 import json
 import urllib.request
 
+from curses import KEY_UP, KEY_RIGHT, KEY_DOWN, KEY_LEFT
+
 def key_dir(key):
     if key == KEY_UP:
         return 0

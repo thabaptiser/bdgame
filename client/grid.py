@@ -24,7 +24,6 @@ class Grid:
 
     def display(self):
         for soldier in self.grid['soldiers']:
-            raise Exception("hello")
             new_coords = utils.normalize_coords(self.top_left, (soldier[0], soldier[1]))
             stdscr.addch(new_coords[1], new_coords[0], '#')
 
