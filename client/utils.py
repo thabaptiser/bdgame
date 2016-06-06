@@ -17,7 +17,7 @@ def normalize_coords(top_left, position):
 def request(url, data=None):
     data = json.dumps(data).encode('utf-8') if data else None
     req = urllib.request.Request(url, data=data)
-    response = urllib.request.urlopen(req)
-    return json.loads(response.read().decode("utf-8")) 
-
+    response = urllib.request.urlopen(req).read().decode("utf-8")
+    if len(response):
+        return json.loads(response)
 

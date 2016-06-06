@@ -36,6 +36,8 @@ def main(stdscr):
             key = stdscr.getch()
             if key in directions:
                 move_soldier(stdscr, key)
+        elif key == ord('d'):
+            raise Exception(grid.request())
         stdscr.clear()
         grid.display()
         cursor.display()
