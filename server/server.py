@@ -40,8 +40,7 @@ class GetGridResource:
         ret = []
         for x in range(req_json['screen'][0][0], req_json['screen'][0][1]):
             for y in range(req_json['screen'][0][1], req_json['screen'][1][1]):
-                if s.units.get((x, y)):
-                    raise Exception((x, y))
+                #if s.units.get((x, y)):
                     ret.append((x, y))
         resp.body = json.dumps({'soldiers': ret})
     
