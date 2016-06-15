@@ -27,7 +27,7 @@ class MoveUnitResource:
         elif mid_x > dest[0]:
             direction = 3
         elif mid_y < dest[0]:
-            direction = 0:
+            direction = 0
         elif mid_y > dest[0]:
             direction = 2
         for i in req_json['soldiers']:
