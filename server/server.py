@@ -18,9 +18,19 @@ class MoveUnitResource:
     def on_post(self, req, resp):
         """Handles post requests"""
         req_json = json.loads(req.stream.read().decode('utf-8'))
-        direction = req_json['direction']
+        dest = req_json['destination']
         token = req_json['token']
-        for i in req_json['positions']:
+        mid_x = sum([s[0] for s in req_json['soldiers']])/len(req_json['soldiers'])
+        mid_y = sum([s[1] for s in req_json['soldiers']])/len(req_json['soldiers'])
+        if mid_x < dest[0]:
+            direction = 1
+        elif mid_x > dest[0]:
+            direction = 3
+        elif mid_y < dest[0]:
+            direction = 0:
+        elif mid_y > dest[0]:
+            direction = 2
+        for i in req_json['soldiers']:
             s.units[i].move(direction, token)
         resp.status = falcon.HTTP_200
 
