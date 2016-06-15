@@ -11,8 +11,9 @@ class Grid:
         self.grid = {}
 
     def refresh(self):
-        self.grid = self.request()
-
+        while True:
+            self.grid = self.request()
+    
     @property
     def bottom_right(self):
         return (self.top_left[0] + self.x_limit, self.top_left[1] - self.y_limit)
@@ -25,6 +26,6 @@ class Grid:
     def display(self):
         for soldier in self.grid['soldiers']:
             new_coords = utils.normalize_coords(self.top_left, (soldier[0], soldier[1]))
-            stdscr.addch(new_coords[1], new_coords[0], '#')
+            self.stdscr.addch(new_coords[1], new_coords[0], '#')
 
 

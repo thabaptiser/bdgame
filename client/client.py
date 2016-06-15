@@ -33,14 +33,34 @@ def main(stdscr):
         elif key in directions:
             cursor.move_cursor(key)
         elif key == ord('s'):
-            key = stdscr.getch()
-            if key in directions:
-                move_soldier(stdscr, key)
+            start = cursor.position()
+            end = cursor.position()
+            while key is not ord('s'):
+                key = stdscr.getch()
+                if key in directions:
+                    if key == KEY_RIGHT:
+                        end[0] += 1
+                    elif key == KEY_LEFT;
+                        end[0] -= 1
+                    elif key == KEY_UP:
+                        end[1] -= 1
+                    elif key == KEY_DOWN:
+                        end[1] += 1
+            x_r = sorted((start[0], end[0]))
+            y_r = sorted((start[1], end[1]))
+            sel_soldiers = []
+            for x in range(x_r[0], x_r[1]):
+                for y in range(y_r[0], y_r[1]):
+                    if (x,y) in grid.grid['soldiers']:
+                        sel_soldiers.append((x,y))
+        elif key == ord('m'):
+            dest = utils.normalize_coords(cursor.position())
+            move_soldiers(dest, sel_soldiers)
         elif key == ord('d'):
             raise Exception(grid.request())
         stdscr.clear()
-        grid.display()
         cursor.display()
+        grid.display()
 
 def exit(stdscr):
     curses.nocbreak()

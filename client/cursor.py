@@ -7,6 +7,9 @@ class Cursor:
         self.x = 0
         self.y = 0
         self.stdscr = stdscr
+    
+    def position(self):
+        return (self.x, self.y)
 
     def display(self):
         self.stdscr.addch(self.y, self.x, "+")
