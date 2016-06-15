@@ -38,7 +38,6 @@ class GetGridResource:
     def on_post(self, req, resp):
         req_json = json.loads(req.stream.read().decode('utf-8'))
         ret = []
-        raise Exception(req_json)
         for x in range(req_json['screen'][0][0], req_json['screen'][1][0]):
             for y in range(req_json['screen'][0][1], req_json['screen'][0][1]):
                 #if s.units.get((x, y)):
