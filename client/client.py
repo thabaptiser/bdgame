@@ -33,28 +33,19 @@ def main(stdscr):
         elif key in directions:
             cursor.move_cursor(key)
         elif key == ord('s'):
-            start = cursor.position()
-            end = cursor.position()
-            cursor.select(start)
-            grid.debug("hello")
+            cursor.select()
+            key = stdscr.getch()
             while key is not ord('s'):
-                key = stdscr.getch()
-                if key in directions:
-                    if key == KEY_RIGHT:
-                        end[0] += 1
-                    elif key == KEY_LEFT:
-                        end[0] -= 1
-                    elif key == KEY_UP:
-                        end[1] -= 1
-                    elif key == KEY_DOWN:
-                        end[1] += 1
                 stdscr.clear()
                 grid.debug(str(cursor.sel_bool))
                 cursor.display()
                 grid.display()
+                if key in directions:
+                    cursor.move_cursor(key)
+                    key = stdscr.getch()
             cursor.deselect()
-            x_r = sorted((start[0], end[0]))
-            y_r = sorted((start[1], end[1]))
+            x_r = sorted((cursor.select_coords[0], cursor.x))
+            y_r = sorted((cursor.select_coords[1], cursor.y))
             sel_soldiers = []
             for x in range(x_r[0], x_r[1]):
                 for y in range(y_r[0], y_r[1]):

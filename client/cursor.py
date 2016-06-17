@@ -13,17 +13,16 @@ class Cursor:
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLUE)
 
     def position(self):
-        return (self.x, self.y)
+        return [self.x, self.y]
 
     def display(self):
-        self.stdscr.addch(self.y, self.x, "+")
         if self.sel_bool:
             x_r = sorted((self.x, self.select_coords[0]))
             y_r = sorted((self.y, self.select_coords[1]))
-            for x in range(x_r[0], x_r[1]):
-                for y in range(y_r[0], y_r[1]):
-                    self.stdscr.addstr(y, x, "+", curses.color_pair(1))
-           # self.stdscr.addch(self.select_coords[1], self.select_coords[0], "+")
+            for x in range(x_r[0], x_r[1]+1):
+                for y in range(y_r[0], y_r[1]+1):
+                    self.stdscr.addstr(y, x, " ", curses.color_pair(1))
+        self.stdscr.addch(self.y, self.x, "+")
     
     def move_cursor(self, key):
         if key == KEY_DOWN:
@@ -35,9 +34,9 @@ class Cursor:
         elif key == KEY_RIGHT:
             self.x += 1
 
-    def select(self, coords):
+    def select(self):
         self.sel_bool = True
-        self.select_coords = coords
+        self.select_coords = (self.x, self.y)
     
     def deselect(self):
         self.sel_bool = False
