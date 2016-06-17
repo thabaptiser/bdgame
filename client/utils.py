@@ -12,4 +12,3 @@ def request(url, data=None):
     response = urllib.request.urlopen(req).read().decode("utf-8")
     if len(response):
         return json.loads(response)
-

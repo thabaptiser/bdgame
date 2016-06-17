@@ -28,4 +28,5 @@ class Grid:
             new_coords = utils.normalize_coords(self.top_left, (soldier[0], soldier[1]))
             self.stdscr.addch(new_coords[1], new_coords[0], '#')
 
-
+    def debug(self, string):
+        self.stdscr.addstr(self.y_limit-1, 0, string)

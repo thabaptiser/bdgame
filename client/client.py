@@ -7,7 +7,7 @@ from curses import wrapper
 
 from cursor import Cursor
 from grid import Grid
-from soldier import create_soldier, move_soldier
+from soldier import create_soldier, move_soldiers
 
 stdscr = curses.initscr()
 curses.noecho()
@@ -35,17 +35,24 @@ def main(stdscr):
         elif key == ord('s'):
             start = cursor.position()
             end = cursor.position()
+            cursor.select(start)
+            grid.debug("hello")
             while key is not ord('s'):
                 key = stdscr.getch()
                 if key in directions:
                     if key == KEY_RIGHT:
                         end[0] += 1
-                    elif key == KEY_LEFT;
+                    elif key == KEY_LEFT:
                         end[0] -= 1
                     elif key == KEY_UP:
                         end[1] -= 1
                     elif key == KEY_DOWN:
                         end[1] += 1
+                stdscr.clear()
+                grid.debug(str(cursor.sel_bool))
+                cursor.display()
+                grid.display()
+            cursor.deselect()
             x_r = sorted((start[0], end[0]))
             y_r = sorted((start[1], end[1]))
             sel_soldiers = []
