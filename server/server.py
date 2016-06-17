@@ -14,9 +14,9 @@ class ServerClass:
 
     def refresh(self):
         while True:
-            for u in s.units:
-                if s.units[u].dead:
-                    del s.units[u]
+            for u in self.units:
+                if self.units[u].dead:
+                    del self.units[u]
             time.sleep(0.1)
 
 class CreateAuthTokenResource:
