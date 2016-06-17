@@ -8,8 +8,8 @@ directions = [(0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (1, -1), (-1, -1), (-1, 
 
 class ServerClass:
     def __init__(self):
-        max_id = 0
-        units = {}
+        self.max_id = 0
+        self.units = {}
         threading.Thread(target=self.refresh).start()
 
     def refresh(self):
