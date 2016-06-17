@@ -3,12 +3,21 @@ import json
 import uuid
 import time
 from unit import Unit
-
+import threading
 directions = [(0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (1, -1), (-1, -1), (-1, 1)]
 
 class ServerClass:
-    max_id = 0
-    units = {}
+    def __init__(self):
+        max_id = 0
+        units = {}
+        threading.thread(target=self.refresh).start()
+
+    def refresh(self):
+        while True:
+            for u in s.units:
+                if s.units[u].dead:
+                    del s.units[u]
+       time.sleep(0.1)
 
 class CreateAuthTokenResource:
     def on_get(self, req, resp):
@@ -90,13 +99,10 @@ class GetGridResource:
         resp.body = json.dumps({'soldiers': list(s.units.keys())})
 
 s = ServerClass()
+tick_time = 0.1
 api = falcon.API()
 api.add_route('/unit/move', MoveUnitResource())
 api.add_route('/unit/create', CreateUnitResource())
 api.add_route('/grid', GetGridResource())
 api.add_route('/token/get', CreateAuthTokenResource())
-#while True:
-#    for u in s.units:
-#        if s.units[u].dead:
-#            del s.units[u]
-#    time.sleep(0.1)
+
