@@ -1,8 +1,10 @@
 import falcon
 import json
 import uuid
-
+import time
 from unit import Unit
+
+directions = [(0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (1, -1), (-1, -1), (-1, 1)]
 
 class ServerClass:
     max_id = 0
@@ -33,6 +35,34 @@ class MoveUnitResource:
         for i in req_json['soldiers']:
             s.units[i].move(direction, token)
         resp.status = falcon.HTTP_200
+
+class AttackMoveUnitResource:
+    def on_post(self, req, resp):
+        """Handles post requests"""
+        req_json = json.loads(req.stream.read().decode('utf-8'))
+        dest = req_json['destination']
+        token = req_json['token']
+        mid_x = sum([s[0] for s in req_json['soldiers']])/len(req_json['soldiers'])
+        mid_y = sum([s[1] for s in req_json['soldiers']])/len(req_json['soldiers'])
+        if mid_x < dest[0]:
+            direction = 1
+        elif mid_x > dest[0]:
+            direction = 3
+        elif mid_y < dest[0]:
+            direction = 0
+        elif mid_y > dest[0]:
+            direction = 2
+        for i in req_json['soldiers']:
+            attacked = False
+            for d in directions:
+                if s.units[(i[0]+d[0], i[1]+d[1])] and s.units[(i[0]+d[0], i[1]+d[1])].token != token:
+                    s.units[i].attack(s.units[(i[0]+d[0], i[1]+d[1])])
+                    attacked = True
+                    break
+            if not attacked:
+                s.units[i].move(direction, token)
+        resp.status = falcon.HTTP_200
+
 
 
 class CreateUnitResource:
@@ -65,3 +95,8 @@ api.add_route('/unit/move', MoveUnitResource())
 api.add_route('/unit/create', CreateUnitResource())
 api.add_route('/grid', GetGridResource())
 api.add_route('/token/get', CreateAuthTokenResource())
+while True:
+    for u in s.units:
+        if s.units[u].dead:
+            del s.units[u]
+    time.sleep(0.1)
