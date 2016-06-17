@@ -10,7 +10,7 @@ class ServerClass:
     def __init__(self):
         max_id = 0
         units = {}
-        threading.thread(target=self.refresh).start()
+        threading.Thread(target=self.refresh).start()
 
     def refresh(self):
         while True:
