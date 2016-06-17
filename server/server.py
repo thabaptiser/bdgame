@@ -95,8 +95,8 @@ api.add_route('/unit/move', MoveUnitResource())
 api.add_route('/unit/create', CreateUnitResource())
 api.add_route('/grid', GetGridResource())
 api.add_route('/token/get', CreateAuthTokenResource())
-while True:
-    for u in s.units:
-        if s.units[u].dead:
-            del s.units[u]
-    time.sleep(0.1)
+#while True:
+#    for u in s.units:
+#        if s.units[u].dead:
+#            del s.units[u]
+#    time.sleep(0.1)
