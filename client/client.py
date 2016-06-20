@@ -34,23 +34,23 @@ def main(stdscr):
             cursor.move_cursor(key)
         elif key == ord('s'):
             cursor.select()
-            key = stdscr.getch()
-            while key is not ord('s'):
+            key = ord('m')
+            while key is not ord('s') or key is not ord('q'):
                 stdscr.clear()
-                grid.debug(str(cursor.sel_bool))
                 cursor.display()
                 grid.display()
+                key = stdscr.getch()
                 if key in directions:
                     cursor.move_cursor(key)
-                    key = stdscr.getch()
-            cursor.deselect()
-            x_r = sorted((cursor.select_coords[0], cursor.x))
-            y_r = sorted((cursor.select_coords[1], cursor.y))
-            sel_soldiers = []
-            for x in range(x_r[0], x_r[1]):
-                for y in range(y_r[0], y_r[1]):
-                    if (x,y) in grid.grid['soldiers']:
-                        sel_soldiers.append((x,y))
+            if key is ord('s'):
+                cursor.deselect()
+                x_r = sorted((cursor.select_coords[0], cursor.x))
+                y_r = sorted((cursor.select_coords[1], cursor.y))
+                sel_soldiers = []
+                for x in range(x_r[0], x_r[1]):
+                    for y in range(y_r[0], y_r[1]):
+                        if (x,y) in grid.grid['soldiers']:
+                            sel_soldiers.append((x,y))
         elif key == ord('m'):
             dest = utils.normalize_coords(cursor.position())
             move_soldiers(dest, sel_soldiers)
@@ -61,11 +61,15 @@ def main(stdscr):
         grid.display()
 
 def exit(stdscr):
-    curses.nocbreak()
-    stdscr.keypad(False)
-    curses.echo()
-    curses.endwin()
-    sys.exit(0)
+    stdscr.clear()
+    stdscr.addstr(y_limit//2, x_limit//2, "Are you sure you want to quit? (y or n)")
+    key = stdscr.getch()
+    if key == ord('y'):
+        curses.nocbreak()
+        stdscr.keypad(False)
+        curses.echo()
+        curses.endwin()
+        sys.exit(0)
 
 curses.wrapper(main)
 
