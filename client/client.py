@@ -51,14 +51,21 @@ def main(stdscr):
                     for y in range(y_r[0], y_r[1]):
                         if (x,y) in grid.grid['soldiers']:
                             sel_soldiers.append((x,y))
+                key = 0
+            if key is ord('q'):
+                exit(stdscr)
         elif key == ord('m'):
-            dest = utils.normalize_coords(cursor.position())
-            move_soldiers(dest, sel_soldiers)
-        elif key == ord('d'):
-            raise Exception(grid.request())
+            if sel_soldiers:
+                dest = utils.normalize_coords(cursor.position())
+                move_soldiers(dest, sel_soldiers)
+            else:
+                stdscr.addstr(y_limit-1, 0, "no soldiers selected")
+                key = 0
+       # elif key == ord('d'):
+        #    raise Exception(grid.request())
         stdscr.clear()
         cursor.display()
-        grid.display()
+        grid.display(key)
 
 def exit(stdscr):
     stdscr.clear()
