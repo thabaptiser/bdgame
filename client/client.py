@@ -34,11 +34,11 @@ def main(stdscr):
             cursor.move_cursor(key)
         elif key == ord('s'):
             cursor.select()
-            key = ord('m')
+            key = 0 
             while key is not ord('s') or key is not ord('q'):
                 stdscr.clear()
                 cursor.display()
-                grid.display()
+                grid.display(cur_key=ord('s'))
                 key = stdscr.getch()
                 if key in directions:
                     cursor.move_cursor(key)
@@ -51,7 +51,7 @@ def main(stdscr):
                     for y in range(y_r[0], y_r[1]):
                         if (x,y) in grid.grid['soldiers']:
                             sel_soldiers.append((x,y))
-                key = 0
+                sel_bool = True
             if key is ord('q'):
                 exit(stdscr)
         elif key == ord('m'):
@@ -65,7 +65,7 @@ def main(stdscr):
         #    raise Exception(grid.request())
         stdscr.clear()
         cursor.display()
-        grid.display(key)
+        grid.display(key, sel_bool)
 
 def exit(stdscr):
     stdscr.clear()

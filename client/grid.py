@@ -23,7 +23,7 @@ class Grid:
         data = {'screen': (self.top_left, self.bottom_right)}
         return utils.request(url, data)
 
-    def display(self, cur_key):
+    def display(self, cur_key, sel_bool):
         for soldier in self.grid['soldiers']:
             new_coords = utils.normalize_coords(self.top_left, (soldier[0], soldier[1]))
             self.stdscr.addch(new_coords[1], new_coords[0], '#')
@@ -32,6 +32,8 @@ class Grid:
                 self.stdscr.addstr(self.y_limit-1, 0, "move")
             elif cur_key is ord('s'):
                 self.stdscr.addstr(self.y_limit-1, 0, "select")
+        if sel_bool:
+            self.stdscr.addstr(self.y_limit-1, 0, "soldier(s) selected")
 
     def debug(self, string):
         self.stdscr.addstr(self.y_limit-1, 0, string)
