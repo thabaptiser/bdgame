@@ -5,7 +5,6 @@ class Unit():
         self.y = y
         self.token = token
         self.life = 2
-        self.dead = False
         self.dest = (0,0)
         self.moving = False
 
