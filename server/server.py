@@ -85,9 +85,9 @@ class GetGridResource:
         y_r = sorted((req_json['screen'][0][1], req_json['screen'][1][1]))
         for x in range(x_r[0], x_r[1]):
             for y in range(y_r[0], y_r[1]):
-                s = s.units_coords.get((x, y))
-                if s:
-                    ret.append((s.x, s.y, s.id))
+                soldier = s.units_coords.get((x, y))
+                if soldier:
+                    ret.append((soldier.x, soldier.y, soldier.id))
         resp.body = json.dumps({'soldiers': ret})
     
     def on_get(self, req, resp):
