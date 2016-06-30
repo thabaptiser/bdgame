@@ -1,11 +1,12 @@
 
 class Unit():
-    def __init__(self, x, y, token):
+    def __init__(self, x, y, token, id):
         self.x = x
         self.y = y
         self.token = token
         self.life = 2
         self.dest = (0,0)
+        self.id = id
         self.moving = False
 
     def check_auth(self, token):
