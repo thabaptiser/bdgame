@@ -72,10 +72,11 @@ class CreateUnitResource:
     def on_post(self, req, resp):
         req_json = json.loads(req.stream.read().decode('utf-8'))
         y = 0
-        while s.units.get((0, y)):
+        while s.units_coords.get((0, y)):
             y += 1
-        s.units[y] = Unit(0, y, req_json['token'])
-
+        soldier = Unit(0, y, req_json['token'], y)
+        s.units[y] = soldier
+        s.units_coords[(0, y)] = soldier
 
 class GetGridResource:
     def on_post(self, req, resp):
