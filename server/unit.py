@@ -56,5 +56,5 @@ class Unit():
         enemy.life -= 1
 
     @property
-    def dead
+    def dead(self)
         return self.life < 1
