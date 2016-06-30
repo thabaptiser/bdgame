@@ -24,8 +24,10 @@ def main(stdscr):
     url = "http://52.34.125.56:8080/token/get"
     token = utils.request(url)['token']
     grid = Grid(stdscr, x_limit, y_limit)
+    sel_bool = False
+    sel_soldiers = []
     while True:
-        key = stdscr.getch() 
+        key = stdscr.getch()
         if key == ord('q'):
             exit(stdscr)
         elif key == ord('c'):
@@ -34,11 +36,11 @@ def main(stdscr):
             cursor.move_cursor(key)
         elif key == ord('s'):
             cursor.select()
-            key = 0 
-            while key is not ord('s') or key is not ord('q'):
+            key = 0
+            while key != ord('s') and key != ord('q'):
                 stdscr.clear()
                 cursor.display()
-                grid.display(cur_key=ord('s'))
+                grid.display(ord('s'))
                 key = stdscr.getch()
                 if key in directions:
                     cursor.move_cursor(key)
@@ -46,30 +48,29 @@ def main(stdscr):
                 cursor.deselect()
                 x_r = sorted((cursor.select_coords[0], cursor.x))
                 y_r = sorted((cursor.select_coords[1], cursor.y))
-                sel_soldiers = []
                 for x in range(x_r[0], x_r[1]):
                     for y in range(y_r[0], y_r[1]):
-                        if (x,y) in grid.grid['soldiers']:
-                            sel_soldiers.append((x,y))
+                        if (x,y) in grid.grid:
+                            sel_soldiers.append(grid.grid[(x,y)])
                 sel_bool = True
             if key is ord('q'):
                 exit(stdscr)
         elif key == ord('m'):
+            key = 69
             if sel_soldiers:
                 dest = utils.normalize_coords(cursor.position())
                 move_soldiers(dest, sel_soldiers)
-            else:
-                stdscr.addstr(y_limit-1, 0, "no soldiers selected")
-                key = 0
+                sel_bool = False
        # elif key == ord('d'):
         #    raise Exception(grid.request())
         stdscr.clear()
+        grid.debug(str(key))
         cursor.display()
         grid.display(key, sel_bool)
 
 def exit(stdscr):
     stdscr.clear()
-    stdscr.addstr(y_limit//2, x_limit//2, "Are you sure you want to quit? (y or n)")
+    stdscr.addstr(y_limit//2, x_limit//2 - 15, "Are you sure you want to quit? (y or n)")
     key = stdscr.getch()
     if key == ord('y'):
         curses.nocbreak()

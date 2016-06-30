@@ -12,7 +12,11 @@ class Grid:
 
     def refresh(self):
         while True:
-            self.grid = self.request()
+            data = self.request()
+            self.grid = {}
+            for i in range(0,len(data['soldiers'])):
+                key = (data['soldiers'][i][0], data['soldiers'][i][1])
+                self.grid[key] = data['soldiers'][i][2]
     
     @property
     def bottom_right(self):
@@ -23,17 +27,19 @@ class Grid:
         data = {'screen': (self.top_left, self.bottom_right)}
         return utils.request(url, data)
 
-    def display(self, cur_key, sel_bool):
-        for soldier in self.grid['soldiers']:
+    def display(self, cur_key, sel_bool=False):
+        for soldier in self.grid:
             new_coords = utils.normalize_coords(self.top_left, (soldier[0], soldier[1]))
             self.stdscr.addch(new_coords[1], new_coords[0], '#')
-        if cur_key:
-            if cur_key is ord('m'):
-                self.stdscr.addstr(self.y_limit-1, 0, "move")
-            elif cur_key is ord('s'):
-                self.stdscr.addstr(self.y_limit-1, 0, "select")
+        if cur_key is ord('m'):
+            if sel_bool:
+                self.stdscr.addstr(self.y_limit-1, 0, "moving")
+            else:
+                self.stdscr.addstr(self.y_limit-1, 0, "no soldiers selected")
+        elif cur_key is ord('s'):
+            self.stdscr.addstr(self.y_limit-1, 0, "selecting")
         if sel_bool:
             self.stdscr.addstr(self.y_limit-1, 0, "soldier(s) selected")
 
     def debug(self, string):
-        self.stdscr.addstr(self.y_limit-1, 0, string)
+        self.stdscr.addstr(25, 0, string)
