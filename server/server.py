@@ -91,7 +91,7 @@ class GetGridResource:
         resp.body = json.dumps({'soldiers': ret})
     
     def on_get(self, req, resp):
-        resp.body = json.dumps({'soldiers': [(s.x, s.y, s.id) for s in s.units]})
+        resp.body = json.dumps({'soldiers': [(soldier.x, soldier.y, soldier.id) for soldier in s.units.values()]})
 
 s = ServerClass()
 tick_time = 0.1
