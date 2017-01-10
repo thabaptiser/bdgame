@@ -40,7 +40,7 @@ class MoveUnitResource:
         """Handles post requests"""
         req_json = json.loads(req.stream.read().decode('utf-8'))
         dest = req_json['destination']
-        token = req_json['token']
+        #token = req_json['token']
         print("Moving soldiers: ")
         for i in req_json['soldiers']:
             s.units[i].move_to(destination, token)
