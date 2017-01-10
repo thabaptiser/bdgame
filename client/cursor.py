@@ -40,10 +40,10 @@ class Cursor:
             self.x += 1
     
     # select using the cursor
-    def select(self, grid):
+    def select(self):
         self.sel_bool = True
         self.select_coords = (self.x, self.y)
     
     # deselect soldiers using the cursor
-    def deselect(self, grid):
+    def deselect(self):
         self.sel_bool = False
