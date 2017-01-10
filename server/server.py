@@ -26,7 +26,8 @@ class ServerClass:
             (self.units[u].x, self.units[u].y)] = self.units[u]
         if self.units[u].dead:
           del self.units[u]
-      time.sleep(0.1)
+      time.sleep(1)
+      print("tick")
 
 class CreateAuthTokenResource:
   def on_get(self, req, resp):
