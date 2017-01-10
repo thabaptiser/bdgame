@@ -70,7 +70,7 @@ class MoveUnitResource:
 class CreateUnitResource:
     def on_post(self, req, resp):
         req_json = json.loads(req.stream.read().decode('utf-8'))
-        print("added soldier token {token}".format(token=req_json['token']))
+        print("added soldier {token}".format(token=req_json['token']))
         y = 0
         while s.units_coords.get((0, y)):
             y += 1
