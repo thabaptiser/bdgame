@@ -4,26 +4,28 @@ class Unit():
         self.y = y
         self.token = token
         self.life = 2
-        self.dest = (0, 0)
+        self.destination = (0, 0)
         self.id = id
         self.moving = False
 
     def check_auth(self, token):
+        return True
         return self.token == token
 
     def move_to(self, direction, token):
         if not self.check_auth(token):
             return
-        self.dest = direction
+        self.destination = direction
+        self.moving = True
 
     def move(self):
-        if self.x < dest[0]:
+        if self.x < self.destination[0]:
             direction = 1
-        elif self.x > dest[0]:
+        elif self.x > self.destination[0]:
             direction = 3
-        elif self.y < dest[0]:
+        elif self.y < self.destination[0]:
             direction = 0
-        elif self.y > dest[0]:
+        elif self.y > self.destination[0]:
             direction = 2
 
         if direction == 0:
@@ -46,8 +48,9 @@ class Unit():
             del s.units[(self.x, self.y)]
             s.units[(self.x - 1, self.y)] = self
 
-        if self.x == direction[0] and self.y == direction[1]:
+        if self.x == destination[0] and self.y == destination[1]:
             self.moving = False
+        print("moved to {destination}".format(destination=(self.x, self.y)))
 
     def attack(self, enemy, token):
         if not self.check_auth(token):

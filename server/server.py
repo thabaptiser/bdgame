@@ -26,7 +26,7 @@ class ServerClass:
                 if self.units[u].dead:
                     del self.units[u]
             time.sleep(1)
-            print("Server Tick")
+            #print("Server Tick")
 
 
 class CreateAuthTokenResource:
@@ -41,6 +41,7 @@ class MoveUnitResource:
         req_json = json.loads(req.stream.read().decode('utf-8'))
         destination = req_json['destination']
         #token = req_json['token']
+        token = "test"
         print("Moving soldiers: ")
         for i in req_json['soldiers']:
             s.units[i].move_to(destination, token)
