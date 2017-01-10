@@ -3,6 +3,8 @@ import urllib.request
 
 from curses import KEY_UP, KEY_RIGHT, KEY_DOWN, KEY_LEFT
 
+ip = "http://104.131.185.245/"
+
 def normalize_coords(top_left, position):
     return (position[0] - top_left[0] , top_left[1] - position[1])
 
