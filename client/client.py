@@ -39,8 +39,8 @@ def main(stdscr):
     cursor = Cursor(stdscr)
     url = utils.ip + "token/get"
     token = utils.request(url)['token']
-    grid = Grid(stdscr, x_limit, y_limit)
-    
+    grid = Grid(stdscr, x_limit, y_limit, cursor)
+ 
     sel_bool = False
     sel_soldiers = []
     
@@ -60,32 +60,26 @@ def main(stdscr):
             cursor.move_cursor(key)
         
         # select tiles
-        elif key == ord('s'):
-            cursor.select(grid)
+        elif key == ord('s') and not sel_bool:
+            cursor.select()
             key = 0
-            # grab tiles
-            while key != ord('s') and key != ord('q'):
-                stdscr.clear()
-                cursor.display(grid)
-                grid.display(ord('s'))
-                key = stdscr.getch()
-                if key in directions:
-                    cursor.move_cursor(key)
-            # finish selecting
-            if key is ord('s'):
-                cursor.deselect(grid)
-                x_r = sorted((cursor.select_coords[0], cursor.x))
-                y_r = sorted((cursor.select_coords[1], cursor.y))
-                debug_file.write(str(x_r) + "\n" + str(y_r) + "\n")
-                for x in range(x_r[0], x_r[1]):
-                    for y in range(y_r[0], y_r[1]):
-                        if (x,y) in grid.grid:
-                            debug_file.write("inserting")
-                            sel_soldiers.append(grid.grid[(x,y)])
-                sel_bool = True
-            if key is ord('q'):
-                exit(stdscr)
-        
+            sel_bool = True
+
+        # finish selecting
+        elif key is ord('s') and sel_bool:
+            cursor.deselect()
+            x_r = sorted((cursor.select_coords[0], cursor.x))
+            y_r = sorted((cursor.select_coords[1], cursor.y))
+            debug_file.write(str(x_r) + "\n" + str(y_r) + "\n")
+            for x in range(x_r[0], x_r[1]):
+                for y in range(y_r[0], y_r[1]):
+                    if (x,y) in grid.grid:
+                        debug_file.write("inserting")
+                        sel_soldiers.append(grid.grid[(x,y)])
+            sel_bool = False
+        if key is ord('q'):
+            exit(stdscr)
+    
         # move soldiers (soldiers must be selected first)
         elif key == ord('m'):
             key = 69
@@ -97,11 +91,9 @@ def main(stdscr):
         elif key == ord('d'):
             raise Exception(grid.request())
         
-        # refresh display
-        stdscr.clear()
         grid.debug(str(key))
-        cursor.display(grid)
-        grid.display(key, sel_bool)
+        grid.update(key, sel_bool)
+        grid.display()
 
 # exit the game
 def exit(stdscr):
