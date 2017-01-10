@@ -48,7 +48,7 @@ class Unit():
             #del s.units[(self.x, self.y)]
             #s.units[(self.x - 1, self.y)] = self
 
-        if self.x == destination[0] and self.y == destination[1]:
+        if self.x == self.destination[0] and self.y == self.destination[1]:
             self.moving = False
         print("moved to {destination}".format(destination=(self.x, self.y)))
 
