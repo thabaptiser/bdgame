@@ -16,6 +16,7 @@ class Unit():
         if not self.check_auth(token):
             return
         self.dest = direction
+        self.moving = True
 
     def move(self):
         if self.x < dest[0]:
@@ -49,6 +50,7 @@ class Unit():
 
         if self.x == direction[0] and self.y == direction[1]:
             self.moving = False
+        print("moved to {dest}".format(dest=(self.x, self.y)))
 
     def attack(self, enemy, token):
         if not self.check_auth(token):
