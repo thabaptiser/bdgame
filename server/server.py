@@ -39,13 +39,13 @@ class MoveUnitResource:
     def on_post(self, req, resp):
         """Handles post requests"""
         req_json = json.loads(req.stream.read().decode('utf-8'))
-        dest = req_json['destination']
+        destination = req_json['destination']
         #token = req_json['token']
         print("Moving soldiers: ")
         for i in req_json['soldiers']:
             s.units[i].move_to(destination, token)
             print("{id}".format(id=i))
-        print("To destination: {destination}".format(destination=dest))
+        print("To destination: {destination}".format(destination=destination))
         resp.status = falcon.HTTP_200
 
 
