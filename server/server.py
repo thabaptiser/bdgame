@@ -25,7 +25,7 @@ class ServerClass:
                                        self.units[u].y)] = self.units[u]
                 if self.units[u].dead:
                     del self.units[u]
-            time.sleep(1)
+            time.sleep(0.2)
             #print("Server Tick")
 
 
