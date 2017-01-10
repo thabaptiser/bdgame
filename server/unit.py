@@ -12,20 +12,22 @@ class Unit():
         return True
         return self.token == token
 
-    def move_to(self, direction, token):
+    def move_to(self, destination, token):
         if not self.check_auth(token):
             return
-        self.destination = direction
+        self.destination = destination
         self.moving = True
 
     def move(self):
+        if not self.moving:
+            return
         if self.x < self.destination[0]:
             direction = 1
         elif self.x > self.destination[0]:
             direction = 3
-        elif self.y < self.destination[0]:
+        elif self.y < self.destination[1]:
             direction = 0
-        elif self.y > self.destination[0]:
+        elif self.y > self.destination[1]:
             direction = 2
 
         if direction == 0:
