@@ -23,7 +23,7 @@ class Grid:
         return (self.top_left[0] + self.x_limit, self.top_left[1] - self.y_limit)
 
     def request(self):
-        url = "http://52.34.125.56:8080/grid"
+        url = utils.ip + "grid"
         data = {'screen': (self.top_left, self.bottom_right)}
         return utils.request(url, data)
 
@@ -33,7 +33,7 @@ class Grid:
             self.stdscr.addch(new_coords[1], new_coords[0], '#')
         if cur_key is ord('m'):
             if sel_bool:
-                self.stdscr.addstr(self.y_limit-1, 0, "moving")
+                self.stdscr.addstr(self.y_limit-1, 0, "moving soldiers")
             else:
                 self.stdscr.addstr(self.y_limit-1, 0, "no soldiers selected")
         elif cur_key is ord('s'):

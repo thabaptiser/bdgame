@@ -37,7 +37,7 @@ debug_file = open("debug.out", "w")
 
 def main(stdscr):
     cursor = Cursor(stdscr)
-    url = "http://104.131.185.245/token/get"
+    url = utils.ip + "token/get"
     token = utils.request(url)['token']
     grid = Grid(stdscr, x_limit, y_limit)
     
@@ -61,24 +61,26 @@ def main(stdscr):
         
         # select tiles
         elif key == ord('s'):
-            cursor.select()
+            cursor.select(grid)
             key = 0
             # grab tiles
             while key != ord('s') and key != ord('q'):
                 stdscr.clear()
-                cursor.display()
+                cursor.display(grid)
                 grid.display(ord('s'))
                 key = stdscr.getch()
                 if key in directions:
                     cursor.move_cursor(key)
             # finish selecting
             if key is ord('s'):
-                cursor.deselect()
+                cursor.deselect(grid)
                 x_r = sorted((cursor.select_coords[0], cursor.x))
                 y_r = sorted((cursor.select_coords[1], cursor.y))
+                debug_file.write(str(x_r) + "\n" + str(y_r) + "\n")
                 for x in range(x_r[0], x_r[1]):
                     for y in range(y_r[0], y_r[1]):
                         if (x,y) in grid.grid:
+                            debug_file.write("inserting")
                             sel_soldiers.append(grid.grid[(x,y)])
                 sel_bool = True
             if key is ord('q'):
@@ -87,9 +89,10 @@ def main(stdscr):
         # move soldiers (soldiers must be selected first)
         elif key == ord('m'):
             key = 69
+            debug_file.write(str(sel_soldiers))
             if sel_soldiers:
-                dest = utils.normalize_coords(cursor.position())
-                move_soldiers(dest, sel_soldiers)
+                debug_file.write("moving soldiers\n")   
+                move_soldiers(cursor.position(), sel_soldiers)
                 sel_bool = False
         elif key == ord('d'):
             raise Exception(grid.request())
@@ -97,9 +100,7 @@ def main(stdscr):
         # refresh display
         stdscr.clear()
         grid.debug(str(key))
-        #debug_file.write(str(grid.request()))
-        debug_file.write("a")
-        cursor.display()
+        cursor.display(grid)
         grid.display(key, sel_bool)
 
 # exit the game
