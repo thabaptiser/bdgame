@@ -12,43 +12,49 @@ class Unit():
         return True
         return self.token == token
 
-    def move_to(self, direction, token):
+    def move_to(self, destination, token):
         if not self.check_auth(token):
             return
-        self.destination = direction
+        self.destination = destination
         self.moving = True
 
-    def move(self):
+    def move(self, s):
+        if not self.moving:
+            return
         if self.x < self.destination[0]:
             direction = 1
         elif self.x > self.destination[0]:
             direction = 3
-        elif self.y < self.destination[0]:
+        elif self.y < self.destination[1]:
             direction = 0
-        elif self.y > self.destination[0]:
+        elif self.y > self.destination[1]:
             direction = 2
 
         if direction == 0:
-            self.y += 1
-            del s.units[(self.x, self.y)]
-            s.units[(self.x, self.y + 1)] = self
+            if not s.units[(self.x, self.y)]:
+                self.y += 1
+            #del s.units[(self.x, self.y)]
+            #s.units[(self.x, self.y + 1)] = self
 
         elif direction == 1:
-            self.x += 1
-            del s.units[(self.x, self.y)]
-            s.units[(self.x + 1, self.y)] = self
+            if not s.units[(self.x, self.y)]:
+                self.x += 1
+            #del s.units[(self.x, self.y)]
+            #s.units[(self.x + 1, self.y)] = self
 
         elif direction == 2:
-            self.y -= 1
-            del s.units[(self.x, self.y)]
-            s.units[(self.x, self.y - 1)] = self
+            if not s.units[(self.x, self.y)]:
+                self.y -= 1
+            #del s.units[(self.x, self.y)]
+            #s.units[(self.x, self.y - 1)] = self
 
         elif direction == 3:
-            self.x -= 1
-            del s.units[(self.x, self.y)]
-            s.units[(self.x - 1, self.y)] = self
+            if not s.units[(self.x, self.y)]:
+                self.x -= 1
+            #del s.units[(self.x, self.y)]
+            #s.units[(self.x - 1, self.y)] = self
 
-        if self.x == destination[0] and self.y == destination[1]:
+        if self.x == self.destination[0] and self.y == self.destination[1]:
             self.moving = False
         print("moved to {destination}".format(destination=(self.x, self.y)))
 

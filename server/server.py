@@ -20,12 +20,12 @@ class ServerClass:
                 if self.units[u].moving:
                     self.units_coords[(self.units[u].x,
                                        self.units[u].y)] = None
-                    self.units[u].move()
+                    self.units[u].move(self)
                     self.units_coords[(self.units[u].x,
                                        self.units[u].y)] = self.units[u]
                 if self.units[u].dead:
                     del self.units[u]
-            time.sleep(1)
+            time.sleep(0.2)
             #print("Server Tick")
 
 
