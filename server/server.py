@@ -26,7 +26,7 @@ class ServerClass:
                 if self.units[u].dead:
                     del self.units[u]
             time.sleep(1)
-            print("Server Tick")
+            #print("Server Tick")
 
 
 class CreateAuthTokenResource:
