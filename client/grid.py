@@ -59,10 +59,10 @@ class Grid:
                 self.stdscr.addstr(self.y_limit-1, 0, "moving soldiers")
             else:
                 self.stdscr.addstr(self.y_limit-1, 0, "no soldiers selected")
-        elif self.cur_key is ord('s'):
-            self.stdscr.addstr(self.y_limit-1, 0, "selecting")
         if self.sel_bool:
-            self.stdscr.addstr(self.y_limit-1, 0, "soldier(s) selected")
+            self.stdscr.addstr(self.y_limit-1, 0, "selecting")
+        if not self.sel_bool and self.cur_key is ord('s'):
+           self.stdscr.addstr(self.y_limit-1, 0, "soldier(s) selected")
         self.displaying = False   
      
     def debug(self, string):

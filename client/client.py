@@ -64,6 +64,7 @@ def main(stdscr):
             cursor.select()
             key = 0
             sel_bool = True
+            sel_soldiers = []
 
         # finish selecting
         elif key is ord('s') and sel_bool:
@@ -71,8 +72,8 @@ def main(stdscr):
             x_r = sorted((cursor.select_coords[0], cursor.x))
             y_r = sorted((cursor.select_coords[1], cursor.y))
             debug_file.write(str(x_r) + "\n" + str(y_r) + "\n")
-            for x in range(x_r[0], x_r[1]):
-                for y in range(y_r[0], y_r[1]):
+            for x in range(x_r[0], x_r[1]+1):
+                for y in range(y_r[0], y_r[1]+1):
                     if (x,y) in grid.grid:
                         debug_file.write("inserting")
                         sel_soldiers.append(grid.grid[(x,y)])
