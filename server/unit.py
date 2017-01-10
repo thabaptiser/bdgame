@@ -16,7 +16,7 @@ class Unit():
         if not self.check_auth(token):
             return
         self.dest = direction
-        
+
     def move(self):
         if self.x < dest[0]:
             direction = 1
@@ -31,7 +31,7 @@ class Unit():
             self.y += 1
             del s.units[(self.x, self.y)]
             s.units[(self.x, self.y+1)] = self
-        
+
         elif direction == 1:
             self.x += 1
             del s.units[(self.x, self.y)]

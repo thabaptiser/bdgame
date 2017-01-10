@@ -31,14 +31,13 @@ class CreateAuthTokenResource:
 class MoveUnitResource:
     def on_post(self, req, resp):
         """Handles post requests"""
-        print("moved soldiers {token}".format(token=req_json['token']))
         req_json = json.loads(req.stream.read().decode('utf-8'))
         dest = req_json['destination']
         token = req_json['token']
         print("Moving soldiers: ")
         for i in req_json['soldiers']:
             s.units[i].move_to(destination, token)
-            print("{token}".format(token=token))
+            print("{id}".format(id=i))
         print("To destination: {destination}".format(destination=dest))
         resp.status = falcon.HTTP_200
 
