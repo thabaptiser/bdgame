@@ -4,6 +4,7 @@ from curses import KEY_RIGHT, KEY_LEFT, KEY_UP, KEY_DOWN
 
 from grid import Grid
 
+# cursor coordinates not normalized
 class Cursor:
     def __init__(self, stdscr):
         self.x = 0
@@ -37,10 +38,12 @@ class Cursor:
             self.x -= 1
         elif key == KEY_RIGHT:
             self.x += 1
-
+    
+    # select using the cursor
     def select(self, grid):
         self.sel_bool = True
         self.select_coords = (self.x, self.y)
     
+    # deselect soldiers using the cursor
     def deselect(self, grid):
         self.sel_bool = False

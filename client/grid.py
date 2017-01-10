@@ -6,10 +6,11 @@ class Grid:
         self.stdscr = stdscr
         self.x_limit = x_limit
         self.y_limit = y_limit
-        self.top_left = (-20, 20)
+        self.top_left = (-20, 20)   # top left of screen for normalization
         threading.Thread(target=self.refresh, daemon=True).start()
         self.grid = {}
 
+    # continually refresh the grid from the server
     def refresh(self):
         while True:
             data = self.request()
@@ -22,11 +23,13 @@ class Grid:
     def bottom_right(self):
         return (self.top_left[0] + self.x_limit, self.top_left[1] - self.y_limit)
 
+    # request grid from the server
     def request(self):
         url = utils.ip + "grid"
         data = {'screen': (self.top_left, self.bottom_right)}
         return utils.request(url, data)
 
+    # display the grid and current actions to the screen
     def display(self, cur_key, sel_bool=False):
         for soldier in self.grid:
             new_coords = utils.normalize_coords(self.top_left, (soldier[0], soldier[1]))
