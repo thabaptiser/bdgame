@@ -85,8 +85,10 @@ class CreateUnitResource:
         y = 0
         while s.units_coords.get((0, y)):
             y += 1
-        soldier = Unit(0, y, req_json['token'], y)
-        s.units[y] = soldier
+        id = s.max_id
+        s.max_id += 1
+        soldier = Unit(0, y, req_json['token'], id)
+        s.units[id] = soldier
         s.units_coords[(0, y)] = soldier
 
 
