@@ -31,25 +31,25 @@ class Unit():
             direction = 2
 
         if direction == 0:
-            if not s.units.get((self.x, self.y)):
+            if not s.units.get((self.x, self.y + 1)):
                 self.y += 1
             #del s.units[(self.x, self.y)]
             #s.units[(self.x, self.y + 1)] = self
 
         elif direction == 1:
-            if not s.units.get((self.x, self.y)):
+            if not s.units.get((self.x + 1, self.y)):
                 self.x += 1
             #del s.units[(self.x, self.y)]
             #s.units[(self.x + 1, self.y)] = self
 
         elif direction == 2:
-            if not s.units.get((self.x, self.y)):
+            if not s.units.get((self.x, self.y - 1)):
                 self.y -= 1
             #del s.units[(self.x, self.y)]
             #s.units[(self.x, self.y - 1)] = self
 
         elif direction == 3:
-            if not s.units.get((self.x, self.y)):
+            if not s.units.get((self.x - 1, self.y)):
                 self.x -= 1
             #del s.units[(self.x, self.y)]
             #s.units[(self.x - 1, self.y)] = self
