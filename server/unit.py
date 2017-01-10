@@ -18,7 +18,7 @@ class Unit():
         self.destination = destination
         self.moving = True
 
-    def move(self):
+    def move(self, s):
         if not self.moving:
             return
         if self.x < self.destination[0]:
@@ -31,22 +31,26 @@ class Unit():
             direction = 2
 
         if direction == 0:
-            self.y += 1
+            if not s.units[(self.x, self.y)]:
+                self.y += 1
             #del s.units[(self.x, self.y)]
             #s.units[(self.x, self.y + 1)] = self
 
         elif direction == 1:
-            self.x += 1
+            if not s.units[(self.x, self.y)]:
+                self.x += 1
             #del s.units[(self.x, self.y)]
             #s.units[(self.x + 1, self.y)] = self
 
         elif direction == 2:
-            self.y -= 1
+            if not s.units[(self.x, self.y)]:
+                self.y -= 1
             #del s.units[(self.x, self.y)]
             #s.units[(self.x, self.y - 1)] = self
 
         elif direction == 3:
-            self.x -= 1
+            if not s.units[(self.x, self.y)]:
+                self.x -= 1
             #del s.units[(self.x, self.y)]
             #s.units[(self.x - 1, self.y)] = self
 
