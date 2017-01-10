@@ -28,7 +28,6 @@ class CreateAuthTokenResource:
         """Gets a new auth token"""
         resp.body = json.dumps({'token': str(uuid.uuid4())})
 
-
 class MoveUnitResource:
     def on_post(self, req, resp):
         """Handles post requests"""
@@ -71,6 +70,7 @@ class MoveUnitResource:
 class CreateUnitResource:
     def on_post(self, req, resp):
         req_json = json.loads(req.stream.read().decode('utf-8'))
+        print("added soldier {token}".format(token=req_json['token']))
         y = 0
         while s.units_coords.get((0, y)):
             y += 1
@@ -90,8 +90,9 @@ class GetGridResource:
                 if soldier:
                     ret.append((soldier.x, soldier.y, soldier.id))
         resp.body = json.dumps({'soldiers': ret})
-    
+
     def on_get(self, req, resp):
+        print("found")
         resp.body = json.dumps({'soldiers': [(soldier.x, soldier.y, soldier.id) for soldier in s.units.values()]})
 
 s = ServerClass()
@@ -101,4 +102,3 @@ api.add_route('/unit/move', MoveUnitResource())
 api.add_route('/unit/create', CreateUnitResource())
 api.add_route('/grid', GetGridResource())
 api.add_route('/token/get', CreateAuthTokenResource())
-
