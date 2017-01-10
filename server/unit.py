@@ -30,23 +30,23 @@ class Unit():
 
         if direction == 0:
             self.y += 1
-            del s.units[(self.x, self.y)]
-            s.units[(self.x, self.y + 1)] = self
+            #del s.units[(self.x, self.y)]
+            #s.units[(self.x, self.y + 1)] = self
 
         elif direction == 1:
             self.x += 1
-            del s.units[(self.x, self.y)]
-            s.units[(self.x + 1, self.y)] = self
+            #del s.units[(self.x, self.y)]
+            #s.units[(self.x + 1, self.y)] = self
 
         elif direction == 2:
             self.y -= 1
-            del s.units[(self.x, self.y)]
-            s.units[(self.x, self.y - 1)] = self
+            #del s.units[(self.x, self.y)]
+            #s.units[(self.x, self.y - 1)] = self
 
         elif direction == 3:
             self.x -= 1
-            del s.units[(self.x, self.y)]
-            s.units[(self.x - 1, self.y)] = self
+            #del s.units[(self.x, self.y)]
+            #s.units[(self.x - 1, self.y)] = self
 
         if self.x == destination[0] and self.y == destination[1]:
             self.moving = False
