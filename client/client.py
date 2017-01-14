@@ -33,7 +33,7 @@ x_limit = curses.COLS - 1
 directions = [KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT]
 
 # open debug file
-debug_file = open("debug.out", "w")
+debug_file = open("debug.out", "a")
 
 def main(stdscr):
     cursor = Cursor(stdscr)

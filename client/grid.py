@@ -1,5 +1,6 @@
 import threading
 import utils
+import sys
 
 class Grid:
     def __init__(self, stdscr, x_limit, y_limit, cursor):
@@ -16,12 +17,15 @@ class Grid:
 
     # continually refresh the grid from the server
     def refresh(self):
+        debug = open("debug2.out", "a")
         while True: 
             data = self.request()
             self.grid = {}
             for i in range(0,len(data['soldiers'])):
                 key = (data['soldiers'][i][0], data['soldiers'][i][1])
                 self.grid[key] = data['soldiers'][i][2]
+                debug.write("refresh\n")
+            sys.exit(0)
             self.display()
                            
     @property
@@ -41,16 +45,16 @@ class Grid:
 
     # display current actions to the screen
     def display(self):
-        if self.displaying == False:
-            self.displaying = True
-        else:
-            return
+       # if self.displaying == False:
+        #    self.displaying = True
+       # else:
+        #    return
 
         self.stdscr.clear()
 
         for soldier in self.grid:
-                new_coords = utils.normalize_coords(self.top_left, (soldier[0], soldier[1]))
-                self.stdscr.addch(new_coords[1], new_coords[0], '#')
+            new_coords = utils.normalize_coords(self.top_left, (soldier[0], soldier[1]))
+            self.stdscr.addch(new_coords[1], new_coords[0], '#')
   
         self.cursor.display(self)
 
